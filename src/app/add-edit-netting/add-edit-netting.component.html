@@ -1,0 +1,80 @@
+<div class="card">
+    <ejs-toast #toasttype id='toasttype' [position]="{ X: 'Right' }"></ejs-toast>
+    <ejs-accordion>
+        <e-accordionitems>
+            <e-accordionitem expanded='true'>
+                <ng-template #header>
+                    <div>Add / Edit Netting Type</div>
+                </ng-template>
+                <ng-template #content>
+                    <form [formGroup]="nettingForm" class="form-horizontal" novalidate="" (ngSubmit)="submit()">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group mt-15">
+                                    <ejs-textbox placeholder="Netting Type Name*" formControlName="name"
+                                        cssClass="e-outline">
+                                    </ejs-textbox>
+                                    <div *ngIf="name.errors">
+                                        <div *ngIf="name.errors.required && name.touched" class="e-error">
+                                            This field is required.
+                                        </div>
+                                        <div *ngIf="name.errors.maxlength" class="e-error">
+                                            Name must not be more then 64 characters.
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <ejs-textbox placeholder="Netting Type Description*" formControlName="description"
+                                        cssClass="e-outline">
+                                    </ejs-textbox>
+                                    <div *ngIf="description.errors">
+                                        <div *ngIf="description.errors.required && description.touched" class="e-error">
+                                            This field is required.
+                                        </div>
+                                        <div *ngIf="description.errors.maxlength" class="e-error">
+                                            Description must not be more then 128 characters.
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <ejs-checkbox formControlName="isActive" label="Active"></ejs-checkbox>
+                                    <div *ngIf="isActive.errors">
+                                        <div *ngIf="isActive.errors.required && isActive.touched" class="e-error">
+                                            This field is required.
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <label class="control-label">Select Products</label>
+                                <div class="product-container ">
+                                    <div *ngIf="selectedProduct && selectedProduct.length == 0 && products.touched"
+                                        class="e-error">
+                                        At least one product need to select.
+                                    </div>
+                                    <div class="form-group" formArrayName="products"
+                                        *ngFor="let product of products.controls; let i = index">
+                                        <ejs-checkbox [formControlName]="i" [label]="productList[i].name"
+                                            [value]="product.id">
+                                        </ejs-checkbox>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <button ejs-button cssClass="e-flat" type="submit" iconCss="far fa-save"
+                                        iconPosition="Left">{{!parmId? 'Add':'Edit' }}
+                                        Netting Type</button>
+                                    <button *ngIf="!parmId" ejs-button cssClass="e-flat ml-5"
+                                        (click)="reset()">Reset</button>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </ng-template>
+            </e-accordionitem>
+        </e-accordionitems>
+    </ejs-accordion>
+</div>
