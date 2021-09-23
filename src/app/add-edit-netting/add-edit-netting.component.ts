@@ -11,7 +11,6 @@ import { ClientService } from '../services/client.service';
   styleUrls: ['./add-edit-netting.component.scss']
 })
 export class AddEditNettingComponent implements OnInit {
-
   nettingForm: FormGroup;
   productList: any;
   selectedProduct: [] = [];
@@ -48,7 +47,7 @@ export class AddEditNettingComponent implements OnInit {
   private addCheckboxes(data) {
     this.productList.forEach((o, i) => {
       let isSelected = data && data.includes(o.id);
-      const control = new FormControl(isSelected); // if first item set to true, else false
+      const control = new FormControl(isSelected);
       (this.nettingForm.controls.products as FormArray).push(control);
     });
   }
@@ -65,9 +64,7 @@ export class AddEditNettingComponent implements OnInit {
       this.nettingForm.controls["name"].setValue(data.name);
       this.nettingForm.controls["description"].setValue(data.description);
       this.nettingForm.controls["isActive"].setValue(data.isActive);
-      console.log(data.nettingTypeProduct);
       this.addCheckboxes(data.nettingTypeProduct)
-
     })
   }
 
@@ -91,11 +88,9 @@ export class AddEditNettingComponent implements OnInit {
       isActive: true,
       nettingTypeProduct: this.selectedProduct
     }
-
     this.clientService.addNettingType(payLoad, this.parmId).then((data) => {
       this.showMessage('Success!', 'Netting Type added successfully.', 'success');
       if (!this.parmId) this.nettingForm.reset();
-
     })
       .catch((error) => {
         this.showMessage('Error!', 'Something went wrong please try again.', 'danger');
